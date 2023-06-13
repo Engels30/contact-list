@@ -1,55 +1,59 @@
+// Supongamos que esta es la implementación de la clase ContactList
 class ContactList {
     constructor() {
-        this.contactos = ["Engels Zaldivar", "María García", "Pedro López"];
-        this.cargarContactos();
+        this.contacts = [];
     }
 
-    cargarContactos() {
-        let contactosGuardados = localStorage.getItem("contactos");
-        if (contactosGuardados) {
-            this.contactos = JSON.parse(contactosGuardados);
-        }
+    addContact(contact) {
+        this.contacts.push(contact);
     }
 
-    guardarContactos() {
-        localStorage.setItem("contactos", JSON.stringify(this.contactos));
-    }
-
-    añadirContacto(nombre) {
-        this.contactos.push(nombre);
-        this.guardarContactos();
-    }
-
-    borrarContacto(nombre) {
-        let index = this.contactos.indexOf(nombre);
+    updateContact(id, updatedContact) {
+        const index = this.contacts.findIndex(contact => contact.id === id);
         if (index !== -1) {
-            this.contactos.splice(index, 1);
-            this.guardarContactos();
+            this.contacts[index] = {...this.contacts[index], ...updatedContact};
         }
     }
 
-    imprimirContactos() {
-        for (let contacto of this.contactos) {
-            console.log(contacto);
-        }
-    }
-
-    actualizarLista() {
-        let listaNombres = document.getElementById("lista-nombres");
-        listaNombres.innerHTML = "";
-        for (let contacto of this.contactos) {
-            let li = document.createElement("li");
-            li.textContent = contacto;
-            listaNombres.appendChild(li);
-        }
+    getContacts() {
+        return this.contacts;
     }
 }
 
-let contactList = new ContactList();
+// Crea una instancia de la clase ContactList para almacenar los contactos
+const contactList = new ContactList();
 
-function insertarNombre(event) {
+// Agrega un controlador de eventos para el formulario de contacto
+const form = document.getElementById('contact-form');
+form.addEventListener('submit', (event) => {
     event.preventDefault();
-    let nombre = document.getElementById("nombre").value;
-    contactList.añadirContacto(nombre);
-    contactList.actualizarLista();
+    // Obtén los detalles del formulario
+    const id = document.getElementById('id').value;
+    const nombres = document.getElementById('nombres').value;
+    const apellidos = document.getElementById('apellidos').value;
+    const teléfono = document.getElementById('teléfono').value;
+    const ubicaciones = document.getElementById('ubicaciones').value;
+    const ciudad = document.getElementById('ciudad').value;
+    const dirección = document.getElementById('dirección').value;
+
+    // Agrega el contacto a la lista de contactos
+    contactList.addContact({id, nombres, apellidos, teléfono, ubicaciones, ciudad, dirección});
+
+    // Actualiza la lista de contactos en la página
+    updateContactList();
+});
+
+// Función para actualizar la lista de contactos en la página
+function updateContactList() {
+    const contacts = contactList.getContacts();
+    const listElement = document.getElementById('lista-nombres');
+    listElement.innerHTML = '';
+    for (const contact of contacts) {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${contact.nombres} ${contact.apellidos}</span>
+            <button data-id="${contact.id}">Actualizar</button>
+        `;
+        listElement.appendChild(listItem);
+    }
 }

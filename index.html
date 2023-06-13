@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <title>Contact List</title>
 </head>
 <body>
-    <form>
-        <input id="nombre" type="text" placeholder="Insertar nombre..."/>
-        <button onclick="insertarNombre(event)">Insertar</button> 
-
+    <h1>Contact List</h1>
+    <form id="contact-form" onsubmit="insertarNombre(event)">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id"><br><br>
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres"><br><br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos"><br><br>
+        <label for="teléfono">Teléfono:</label>
+        <input type="text" id="teléfono" name="teléfono"><br><br>
+        <label for="ubicaciones">Ubicaciones:</label>
+        <input type="text" id="ubicaciones" name="ubicaciones"><br><br>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad"><br><br>
+        <label for="dirección">Dirección:</label>
+        <input type="text" id="dirección" name="dirección"><br><br>
+        <input type="submit" value="Guardar">
     </form>
-    <div>
-        <ul id="lista-nombres"></ul>
-    </div>
 
+    <h2>Contactos actuales:</h2>
+    <!-- Agrega un botón "Actualizar" junto a cada contacto en la lista -->
+    <ul id="lista-nombres">
+        <!-- Supongamos que este es un contacto en la lista -->
+        <li>
+            <span>Nombre del contacto</span>
+            <button data-id="ID del contacto">Actualizar</button>
+        </li>
+    </ul>
 
+    <script src="./contactList.js"></script> <!-- Path to the ContactList class script -->
 </body>
 </html>
