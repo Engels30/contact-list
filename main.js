@@ -1,6 +1,6 @@
 class ContactList {
     constructor() {
-        this.contactos = ["Engels Zaldivar", "María García", "Pedro López"];
+        this.contactos = [];
         this.cargarContactos();
     }
 
@@ -15,13 +15,13 @@ class ContactList {
         localStorage.setItem("contactos", JSON.stringify(this.contactos));
     }
 
-    añadirContacto(nombre) {
-        this.contactos.push(nombre);
+    añadirContacto(contacto) {
+        this.contactos.push(contacto);
         this.guardarContactos();
     }
 
-    borrarContacto(nombre) {
-        let index = this.contactos.indexOf(nombre);
+    borrarContacto(id) {
+        let index = this.contactos.findIndex(contacto => contacto.id === id);
         if (index !== -1) {
             this.contactos.splice(index, 1);
             this.guardarContactos();
@@ -30,7 +30,7 @@ class ContactList {
 
     imprimirContactos() {
         for (let contacto of this.contactos) {
-            console.log(contacto);
+            console.log(`${contacto.nombres} ${contacto.apellidos}`);
         }
     }
 
@@ -39,7 +39,7 @@ class ContactList {
         listaNombres.innerHTML = "";
         for (let contacto of this.contactos) {
             let li = document.createElement("li");
-            li.textContent = contacto;
+            li.textContent = `${contacto.nombres} ${contacto.apellidos}`;
             listaNombres.appendChild(li);
         }
     }
@@ -49,7 +49,15 @@ let contactList = new ContactList();
 
 function insertarNombre(event) {
     event.preventDefault();
-    let nombre = document.getElementById("nombre").value;
-    contactList.añadirContacto(nombre);
+    let id = document.getElementById("id").value;
+    let nombres = document.getElementById("nombres").value;
+    let apellidos = document.getElementById("apellidos").value;
+    let teléfono = document.getElementById("teléfono").value;
+    let ubicaciones = document.getElementById("ubicaciones").value;
+    let ciudad = document.getElementById("ciudad").value;
+    let dirección = document.getElementById("dirección").value;
+
+    let contacto = { id, nombres, apellidos, teléfono, ubicaciones, ciudad, dirección };
+    contactList.añadirContacto(contacto);
     contactList.actualizarLista();
 }
