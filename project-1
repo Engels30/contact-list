@@ -1,0 +1,59 @@
+// Crear una lista de contactos con datos predefinidos
+let contactos = ["Juan Pérez", "María García", "Pedro López"];
+
+// Función para cargar los contactos desde el almacenamiento local
+function cargarContactos() {
+    let contactosGuardados = localStorage.getItem("contactos");
+    if (contactosGuardados) {
+        contactos = JSON.parse(contactosGuardados);
+    }
+}
+
+// Función para guardar los contactos en el almacenamiento local
+function guardarContactos() {
+    localStorage.setItem("contactos", JSON.stringify(contactos));
+}
+
+// Función para añadir un nuevo contacto a la lista
+function añadirContacto(lista, nombre) {
+    lista.push(nombre);
+    guardarContactos();
+}
+
+// Función para borrar un contacto existente de la lista
+function borrarContacto(lista, nombre) {
+    let index = lista.indexOf(nombre);
+    if (index !== -1) {
+        lista.splice(index, 1);
+        guardarContactos();
+    }
+}
+
+// Función para imprimir en consola los contactos presentes en la lista
+function imprimirContactos(lista) {
+    for (let contacto of lista) {
+        console.log(contacto);
+    }
+}
+
+// Función para insertar un nuevo contacto desde el formulario
+function insertarNombre(event) {
+    event.preventDefault();
+    let nombre = document.getElementById("nombre").value;
+    añadirContacto(contactos, nombre);
+    actualizarLista();
+}
+
+// Función para actualizar la lista desordenada en la página
+function actualizarLista() {
+    let listaNombres = document.getElementById("lista-nombres");
+    listaNombres.innerHTML = "";
+    for (let contacto of contactos) {
+        let li = document.createElement("li");
+        li.textContent = contacto;
+        listaNombres.appendChild(li);
+    }
+}
+
+// Cargar los contactos al iniciar el script
+cargarContactos();
